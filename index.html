@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NKS | Nabiha Khalid — Tech Developer & Applied Physics Scholar</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        purplePalette: {
+                            base: '#10001D',       
+                            card: '#1A082C',       
+                            border: '#3A184D',     
+                            mid: '#5B2E58',        
+                            vibrant: '#B04F82',    
+                            soft: '#DFB8B2',       
+                            cream: '#FDE4D8'       
+                        },
+                        text: {
+                            main: '#FFFFFF',
+                            bright: '#FDE4D8',
+                            sub: '#EAD1DC',
+                            muted: '#B8A4BA',
+                            dim: '#7C6780'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Arial', 'Helvetica', 'sans-serif'],
+                        display: ['Arial', 'Helvetica', 'sans-serif'],
+                        mono: ['Arial', 'Helvetica', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #10001D;
+            color: #FDE4D8;
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(176, 79, 130, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(176, 79, 130, 0.7); }
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .clay-card {
+            background: rgba(26, 8, 44, 0.88);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            box-shadow: 
+                10px 10px 22px #0a0013, 
+                -8px -8px 18px rgba(91, 46, 88, 0.28),
+                inset 1px 1px 2px rgba(253, 228, 216, 0.12);
+            border: 1px solid rgba(176, 79, 130, 0.25);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .clay-card:hover {
+            transform: translateY(-5px);
+            border-color: #B04F82;
+            box-shadow: 
+                14px 14px 30px #05000a, 
+                -10px -10px 24px rgba(176, 79, 130, 0.35),
+                inset 1px 1px 3px rgba(253, 228, 216, 0.2);
+        }
+
+        .clay-btn {
+            background: linear-gradient(135deg, #B04F82 0%, #5B2E58 100%);
+            border-radius: 14px;
+            box-shadow: 
+                4px 4px 12px #0a0013, 
+                -3px -3px 8px rgba(176, 79, 130, 0.35);
+            border: 1px solid rgba(253, 228, 216, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .clay-btn:hover {
+            background: linear-gradient(135deg, #C75B93 0%, #B04F82 100%);
+            box-shadow: 0 0 25px rgba(176, 79, 130, 0.7);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .glass-nav {
+            background: rgba(16, 0, 29, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(176, 79, 130, 0.22);
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printable-resume, #printable-resume * { visibility: visible; }
+            #printable-resume {
+                position: absolute;
+                left: 0; top: 0; width: 100%;
+                background: white !important;
+                color: black !important;
+                padding: 30px;
+            }
+            .no-print { display: none !important; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #10001D; }
+        ::-webkit-scrollbar-thumb { background: #5B2E58; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B04F82; }
+    </style>
+</head>
+<body class="selection:bg-purplePalette-vibrant selection:text-white relative">
+
+    <!-- CANVAS BACKGROUND -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-40 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- SINGLE COLOR ARIAL STYLE NKS LOGO -->
+            <a href="#" class="flex items-center gap-3.5 group">
+                <div class="relative w-11 h-11 flex items-center justify-center rounded-2xl bg-purplePalette-card border border-purplePalette-border shadow-md">
+                    <span class="font-bold text-base tracking-tight text-purplePalette-cream">
+                        NKS
+                    </span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-white text-base tracking-tight group-hover:text-purplePalette-vibrant transition-colors">Nabiha Khalid</span>
+                    <span class="text-[11px] text-text-sub font-medium">Applied Physics & CS</span>
+                </div>
+            </a>
+
+            <!-- DESKTOP NAVIGATION -->
+            <nav class="hidden md:flex items-center gap-8 text-xs text-text-sub tracking-wider">
+                <a href="#about" class="hover:text-white transition-colors flex items-center gap-1"><span class="text-purplePalette-vibrant font-bold">01.</span> ABOUT</a>
+                <a href="#featured" class="hover:text-white transition-colors flex items-center gap-1"><span class="text-purplePalette-vibrant font-bold">02.</span> WORKS</a>
+                <a href="#skills" class="hover:text-white transition-colors flex items-center gap-1"><span class="text-purplePalette-vibrant font-bold">03.</span> SKILLS</a>
+                <a href="#experience" class="hover:text-white transition-colors flex items-center gap-1"><span class="text-purplePalette-vibrant font-bold">04.</span> JOURNEY</a>
+                <a href="#contact" class="hover:text-white transition-colors flex items-center gap-1"><span class="text-purplePalette-vibrant font-bold">05.</span> CONTACT</a>
+            </nav>
+
+            <!-- SOCIAL ICONS & RESUME TRIGGER -->
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/Arcade-nebula29" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-purplePalette-card border border-purplePalette-border text-text-sub hover:text-white hover:border-purplePalette-vibrant transition-all shadow-md hover:scale-105" title="GitHub Profile">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                
+                <a href="https://www.linkedin.com/in/nabiha-khalid-145942379" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-purplePalette-card border border-purplePalette-border text-text-sub hover:text-white hover:border-purplePalette-vibrant transition-all shadow-md hover:scale-105" title="LinkedIn Profile">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                </a>
+
+                <button onclick="requestCV()" class="clay-btn px-3.5 py-2 text-xs font-bold text-white flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Request CV</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <main class="relative z-10 pt-28 sm:pt-36">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="flex flex-wrap items-center gap-3 text-xs">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purplePalette-card border border-purplePalette-vibrant/40 text-text-bright shadow-lg animate-glow">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Open for AI Collaborations & Tech Ventures
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
+                            Ideas into <span class="text-transparent bg-clip-text bg-gradient-to-r from-purplePalette-vibrant via-purplePalette-soft to-purplePalette-cream">Algorithms.</span>
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-bold text-text-bright">
+                            Tech Developer & Applied Physics Scholar
+                        </p>
+                    </div>
+
+                    <p class="text-base sm:text-lg text-text-sub max-w-2xl leading-relaxed font-normal">
+                        Building intelligent computer vision systems, AI pipelines, and tech ventures at the interdisciplinary intersection of Physics, Calculus, and Computer Science.
+                    </p>
+
+                    <div class="pt-4 flex flex-wrap items-center gap-4">
+                        <a href="#featured" class="clay-btn px-7 py-4 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2.5">
+                            Explore Selected Work <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+                        </a>
+                        <button onclick="requestCV()" class="px-6 py-4 rounded-xl bg-purplePalette-card border border-purplePalette-vibrant/50 hover:border-purplePalette-vibrant text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg">
+                            <i data-lucide="eye" class="w-4 h-4 text-purplePalette-vibrant"></i> Preview CV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bento Badge Card -->
+                <div class="lg:col-span-4">
+                    <div class="clay-card p-6 sm:p-7 space-y-6 animate-float">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-2xl bg-purplePalette-card border border-purplePalette-vibrant flex items-center justify-center text-purplePalette-cream text-2xl font-bold shadow-xl">
+                                NKS
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-extrabold text-white">Nabiha Khalid</h2>
+                                <p class="text-xs text-purplePalette-vibrant font-bold">Applied Physics Undergraduate</p>
+                                <p class="text-xs text-text-muted">NED University</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs border-t border-purplePalette-border pt-4">
+                            <div class="flex justify-between py-1.5 border-b border-purplePalette-border/50">
+                                <span class="text-text-muted">Primary Focus</span>
+                                <span class="text-white font-bold">Computer Vision & AI</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-purplePalette-border/50">
+                                <span class="text-text-muted">Environment</span>
+                                <span class="text-white font-bold">Linux, VS Code, Cursor</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-purplePalette-border/50">
+                                <span class="text-text-muted">Tutoring</span>
+                                <span class="text-white font-bold">O Level STEM Classes</span>
+                            </div>
+                            <div class="flex justify-between py-1.5">
+                                <span class="text-text-muted">Internship</span>
+                                <span class="text-white font-bold">DecodeLabs AI Graduate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 01 MINDSET & CRAFT GRID -->
+        <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-purplePalette-border">
+            <div class="flex items-center gap-3 text-xs text-purplePalette-vibrant font-bold mb-8">
+                <span>01.</span>
+                <span class="tracking-widest uppercase">MINDSET & CRAFT GRID</span>
+                <div class="h-px bg-purplePalette-border flex-1"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="clay-card p-6 sm:p-8 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-purplePalette-base text-purplePalette-vibrant border border-purplePalette-mid">
+                                <i data-lucide="code-2" class="w-5 h-5"></i>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-white">THE CRAFT</h3>
+                        </div>
+                        <span class="text-xs text-text-muted">TECHNICAL STACK</span>
+                    </div>
+                    <p class="text-sm text-text-sub leading-relaxed">
+                        Technical focus in building production-grade algorithmic scripts, image OCR text extraction tools, and mathematical model pipelines.
+                    </p>
+                    <div class="space-y-2.5 text-xs text-text-bright">
+                        <p><span class="text-purplePalette-vibrant font-bold">• Core:</span> Python (Pandas, NumPy, Scikit-Learn), C++, SQL, HTML5, CSS3, JavaScript</p>
+                        <p><span class="text-purplePalette-vibrant font-bold">• Perception & ML:</span> OpenCV Computer Vision, PyTesseract OCR, KNN, TF-IDF</p>
+                        <p><span class="text-purplePalette-vibrant font-bold">• Tools:</span> Linux Workstations, Git & GitHub, Cursor AI IDE, VS Code, Anaconda</p>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 sm:p-8 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2.5 rounded-xl bg-purplePalette-base text-purplePalette-vibrant border border-purplePalette-mid">
+                                <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-white">THE MINDSET</h3>
+                        </div>
+                        <span class="text-xs text-text-muted">PHILOSOPHY</span>
+                    </div>
+                    <p class="text-sm text-text-sub leading-relaxed">
+                        Rooted in analytical discipline derived from multivariable calculus, wave mechanics, thermodynamics, and strategic problem solving.
+                    </p>
+                    <div class="space-y-2.5 text-xs text-text-bright">
+                        <p><span class="text-purplePalette-vibrant font-bold">• Physics Integration:</span> Translating differential equations into computational models.</p>
+                        <p><span class="text-purplePalette-vibrant font-bold">• Continuous Evolution:</span> Completed DecodeLabs AI internship and AKU research paper presentation.</p>
+                        <p><span class="text-purplePalette-vibrant font-bold">• STEM Mentorship:</span> Educating O Level and 8th-grade students in math and physics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 FEATURED PROJECTS -->
+        <section id="featured" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-purplePalette-border">
+            <div class="flex items-center justify-between mb-12">
+                <div class="flex items-center gap-3 text-xs text-purplePalette-vibrant font-bold">
+                    <span>02.</span>
+                    <span class="tracking-widest uppercase">FEATURED PROJECTS & VENTURES</span>
+                </div>
+                <a href="https://github.com/Arcade-nebula29" target="_blank" rel="noopener noreferrer" class="text-xs text-text-sub hover:text-white transition-colors flex items-center gap-1.5">
+                    All Repositories <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="clay-card p-6 sm:p-7 space-y-4">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-purplePalette-vibrant font-bold">01 — VENTURE CONCEPT</span>
+                        <span class="text-text-muted">Entrepreneurship</span>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">Karachi Automobile Platform</h3>
+                    <p class="text-xs text-text-sub leading-relaxed">
+                        A specialized digital startup proposal for local automobile services and verification.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs text-white pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Market Research</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Web Proposal</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 sm:p-7 space-y-4">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-purplePalette-vibrant font-bold">02 — COMPUTER VISION</span>
+                        <a href="https://github.com/Arcade-nebula29/Image-Text-Detector" target="_blank" class="text-text-bright hover:text-purplePalette-vibrant flex items-center gap-1">
+                            GitHub <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">Image-Text OCR Detector</h3>
+                    <p class="text-xs text-text-sub leading-relaxed">
+                        Visual processing pipeline using OpenCV for edge isolation and PyTesseract for automated text extraction.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs text-white pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Python</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">OpenCV</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">PyTesseract</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 sm:p-7 space-y-4">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-purplePalette-vibrant font-bold">03 — ARTIFICIAL INTELLIGENCE</span>
+                        <a href="https://github.com/Arcade-nebula29/Tech-Stack-Recommender" target="_blank" class="text-text-bright hover:text-purplePalette-vibrant flex items-center gap-1">
+                            GitHub <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">AI Tech Stack Recommender</h3>
+                    <p class="text-xs text-text-sub leading-relaxed">
+                        Skill-matching engine using TF-IDF text vectorization and Cosine Similarity math for tech selection.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs text-white pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Python</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">TF-IDF</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Cosine Similarity</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 sm:p-7 space-y-4">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-purplePalette-vibrant font-bold">04 — MACHINE LEARNING</span>
+                        <a href="https://github.com/Arcade-nebula29/Iris-data-classification" target="_blank" class="text-text-bright hover:text-purplePalette-vibrant flex items-center gap-1">
+                            GitHub <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-white">Iris KNN Data Classifier</h3>
+                    <p class="text-xs text-text-sub leading-relaxed">
+                        Supervised machine learning classification pipeline with parameter evaluation and confusion matrix reporting.
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs text-white pt-2">
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Python</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">KNN</span>
+                        <span class="px-2.5 py-1 rounded-md bg-purplePalette-base border border-purplePalette-border">Scikit-Learn</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03 ENHANCED SKILLS INVENTORY -->
+        <section id="skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-purplePalette-border">
+            <div class="flex items-center gap-3 text-xs text-purplePalette-vibrant font-bold mb-8">
+                <span>03.</span>
+                <span class="tracking-widest uppercase">TECHNICAL & ACADEMIC SKILLS</span>
+                <div class="h-px bg-purplePalette-border flex-1"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div class="clay-card p-6 space-y-4">
+                    <div class="flex items-center gap-2.5 border-b border-purplePalette-border pb-3">
+                        <div class="p-2 rounded-lg bg-purplePalette-base text-purplePalette-vibrant">
+                            <i data-lucide="code" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Programming & Web</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Python</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">C++</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">HTML5</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">CSS3</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">JavaScript</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Shell Scripting</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Rule-Based AI</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Algorithmic Optimization</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 space-y-4">
+                    <div class="flex items-center gap-2.5 border-b border-purplePalette-border pb-3">
+                        <div class="p-2 rounded-lg bg-purplePalette-base text-purplePalette-vibrant">
+                            <i data-lucide="database" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Data Analytics & ML</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Pandas</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">NumPy</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">SQL Queries</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">MS Access</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Supervised ML</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">KNN Classifier</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">TF-IDF Vectorization</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Cosine Similarity</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">EDA</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Matplotlib</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 space-y-4">
+                    <div class="flex items-center gap-2.5 border-b border-purplePalette-border pb-3">
+                        <div class="p-2 rounded-lg bg-purplePalette-base text-purplePalette-vibrant">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Computer Vision</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Applied OpenCV</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">PyTesseract OCR</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Edge Detection</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Image Thresholding</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Text Preprocessing</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 space-y-4">
+                    <div class="flex items-center gap-2.5 border-b border-purplePalette-border pb-3">
+                        <div class="p-2 rounded-lg bg-purplePalette-base text-purplePalette-vibrant">
+                            <i data-lucide="terminal" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Dev Tools & OS</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Linux Environment</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Git Version Control</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">GitHub Management</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Git Bash</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">VS Code</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Cursor AI IDE</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Anaconda Navigator</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Jupyter Notebook</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Wix Web Design</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 space-y-4">
+                    <div class="flex items-center gap-2.5 border-b border-purplePalette-border pb-3">
+                        <div class="p-2 rounded-lg bg-purplePalette-base text-purplePalette-vibrant">
+                            <i data-lucide="sigma" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Physics & Math</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Numerical Analysis</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Multivariable Calculus</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Linear Algebra</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Chi-Square Testing</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Hypothesis p-Values</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Linear Regression</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Physical Modeling</span>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 space-y-4">
+                    <div class="flex items-center gap-2.5 border-b border-purplePalette-border pb-3">
+                        <div class="p-2 rounded-lg bg-purplePalette-base text-purplePalette-vibrant">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-white text-base">Research & Pedagogy</h4>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Academic Writing</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Research Methodology</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Technical Reports</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Conference Presentation</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">STEM Pedagogy & Tutoring</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Survey Verification</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-purplePalette-base border border-purplePalette-border text-purplePalette-cream">Digital Marketing</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 04 JOURNEY & EDUCATION -->
+        <section id="experience" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-purplePalette-border">
+            <div class="flex items-center gap-3 text-xs text-purplePalette-vibrant font-bold mb-8">
+                <span>04.</span>
+                <span class="tracking-widest uppercase">JOURNEY & EDUCATION</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="clay-card p-6 space-y-2">
+                        <span class="text-xs text-purplePalette-vibrant font-bold">Aug 2026 – Sep 2026</span>
+                        <h4 class="text-xl font-bold text-white">AI Virtual Intern — DecodeLabs</h4>
+                        <p class="text-xs text-text-sub">Constructed 4 AI/ML projects sequentially: Chatbots, KNN, Recommender Systems, and OCR.</p>
+                    </div>
+                    <div class="clay-card p-6 space-y-2">
+                        <span class="text-xs text-purplePalette-vibrant font-bold">Aug 2026 – Sep 2026</span>
+                        <h4 class="text-xl font-bold text-white">Field Survey Enumerator — Gallup Pakistan</h4>
+                        <p class="text-xs text-text-sub">Executed field survey data collection and response verification.</p>
+                    </div>
+                    <div class="clay-card p-6 space-y-2">
+                        <span class="text-xs text-purplePalette-vibrant font-bold">Ongoing</span>
+                        <h4 class="text-xl font-bold text-white">Academic Tutor (O Level & 8th Grade STEM)</h4>
+                        <p class="text-xs text-text-sub">Instructing students in Mathematics, Physics, Science, and English language.</p>
+                    </div>
+                </div>
+
+                <div class="clay-card p-6 sm:p-7 space-y-5">
+                    <h4 class="font-extrabold text-white text-lg border-b border-purplePalette-border pb-3">Education & Credentials</h4>
+                    <div class="space-y-3 text-xs text-text-bright">
+                        <p><strong class="text-white">B.S. Applied Physics</strong> — NED University of Engineering & Technology</p>
+                        <p><strong class="text-white">Intermediate (Computer Science)</strong> — Shaheed e Millat Govt. Degree College (Grade A)</p>
+                        <p><strong class="text-white">Secondary Matriculation (CS)</strong> — Al Eman Education System (Grade A+)</p>
+                    </div>
+                    <h5 class="font-extrabold text-white text-base pt-4 border-b border-purplePalette-border pb-2">Certifications</h5>
+                    <p class="text-xs text-text-bright">DigiSkills Digital Marketing & Freelancing · Coursera Wix Web Development · DigiSkills AI using Python</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05 CONTACT -->
+        <section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-purplePalette-border">
+            <div class="clay-card p-8 sm:p-14 text-center space-y-6">
+                <span class="text-xs text-purplePalette-vibrant font-bold tracking-widest uppercase">05. GET IN TOUCH</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white">
+                    Have a project or venture in mind? <span class="text-purplePalette-vibrant">Let's build it.</span>
+                </h2>
+                <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
+                    <a href="mailto:nabihakhalid29@gmail.com" class="clay-btn px-8 py-4 text-white text-xs uppercase tracking-wider font-bold flex items-center gap-2">
+                        <i data-lucide="mail" class="w-4 h-4"></i> nabihakhalid29@gmail.com
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-purplePalette-border py-8 text-center text-xs text-text-muted">
+        <p>© 2026 NKS (Nabiha Khalid Siddiqui). All Rights Reserved.</p>
+    </footer>
+
+    <!-- MOBILE-OPTIMIZED AI CHATBOT FLOATING DRAWER -->
+    <div id="chat-widget" class="fixed bottom-5 right-4 sm:right-6 z-50 chat-trigger flex items-center gap-3">
+        <div class="tooltip-pop bg-purplePalette-card border border-purplePalette-vibrant/60 px-3.5 py-2 rounded-xl text-xs text-white shadow-2xl backdrop-blur-md hidden sm:block">
+            Ask NKS AI Assistant <span class="text-purplePalette-vibrant">✦</span>
+        </div>
+
+        <button onclick="toggleChat()" class="clay-btn w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-white shadow-2xl relative group">
+            <i data-lucide="bot" class="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-12 transition-transform duration-300"></i>
+            <span class="absolute -top-1 -right-1 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-emerald-400 border-2 border-purplePalette-base"></span>
+        </button>
+
+        <div id="chat-box" class="hidden absolute bottom-16 sm:bottom-20 right-0 w-[92vw] sm:w-[400px] h-[480px] sm:h-[520px] clay-card p-4 sm:p-5 flex flex-col justify-between z-50 border-2 border-purplePalette-vibrant shadow-2xl">
+            <div class="flex items-center justify-between pb-3.5 border-b border-purplePalette-border">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purplePalette-vibrant to-purplePalette-base border border-purplePalette-vibrant flex items-center justify-center text-white text-xs font-bold shadow-md">
+                        AI
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-white">NKS Site AI Assistant</p>
+                        <p class="text-[11px] text-emerald-400 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Connected to Website Knowledge
+                        </p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="p-1.5 rounded-lg text-text-sub hover:text-white hover:bg-purplePalette-base transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="chat-messages" class="flex-1 overflow-y-auto py-4 space-y-3 font-sans text-xs pr-1">
+                <div class="p-3.5 rounded-2xl bg-purplePalette-base border border-purplePalette-mid text-text-bright leading-relaxed">
+                    Hello! I am Nabiha's portfolio AI assistant. Feel free to ask about her projects, skills, degree at NED University, or research paper! Type <strong>"CV"</strong> to preview her resume.
+                </div>
+            </div>
+
+            <form onsubmit="handleChatSubmit(event)" class="pt-3 flex items-center gap-2 border-t border-purplePalette-border">
+                <input type="text" id="chat-input" placeholder="Ask in English (e.g., skills, CV, projects)..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-purplePalette-base border border-purplePalette-border text-xs font-sans text-white focus:outline-none focus:border-purplePalette-vibrant placeholder:text-text-muted">
+                <button type="submit" class="clay-btn p-2.5 text-white">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- READ-ONLY PREVIEW CV MODAL -->
+    <div id="resume-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="clay-card w-full max-w-3xl max-h-[90vh] overflow-y-auto p-5 sm:p-6 space-y-6 relative border-purplePalette-vibrant">
+            <div class="flex items-center justify-between border-b border-purplePalette-border pb-4 no-print">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="file-check" class="w-4 h-4 text-purplePalette-vibrant"></i>
+                    <span class="text-xs text-white">Official Curriculum Vitae</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="window.print()" class="clay-btn px-4 py-2 text-xs text-white font-bold flex items-center gap-1.5">
+                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> Download PDF
+                    </button>
+                    <button onclick="closeResumeModal()" class="text-text-sub hover:text-white p-1">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="printable-resume" class="space-y-6 p-2 sm:p-4 text-text-bright font-sans">
+                <div class="border-b border-purplePalette-vibrant pb-4">
+                    <h1 class="text-2xl font-extrabold text-white tracking-wide">NABIHA KHALID SIDDIQUI</h1>
+                    <p class="text-xs text-purplePalette-vibrant font-bold">Tech Developer & Applied Physics Scholar</p>
+                    <p class="text-xs text-text-sub mt-1">nabihakhalid29@gmail.com | github.com/Arcade-nebula29</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-xs font-bold text-purplePalette-vibrant uppercase tracking-widest border-b border-purplePalette-border pb-1">EDUCATION</h3>
+                    <p class="text-xs"><strong class="text-white">B.S. Applied Physics</strong> — NED University of Engineering & Technology (Present)</p>
+                    <p class="text-xs"><strong class="text-white">Intermediate (Computer Science)</strong> — Shaheed e Millat Govt. Degree College (Grade A)</p>
+                    <p class="text-xs"><strong class="text-white">Matriculation (Computer Science)</strong> — Al Eman Education System (Grade A+)</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-xs font-bold text-purplePalette-vibrant uppercase tracking-widest border-b border-purplePalette-border pb-1">TECHNICAL SKILLS</h3>
+                    <p class="text-xs"><strong class="text-white">Languages & Frameworks:</strong> Python (Pandas, NumPy, Scikit-Learn), C++, SQL, HTML5, CSS3, JavaScript</p>
+                    <p class="text-xs"><strong class="text-white">Perception & ML:</strong> OpenCV, PyTesseract OCR, K-Nearest Neighbors (KNN), TF-IDF, Cosine Similarity</p>
+                    <p class="text-xs"><strong class="text-white">Developer Tools:</strong> Linux, Git, GitHub, VS Code, Cursor AI IDE, Anaconda Navigator, Jupyter</p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold text-purplePalette-vibrant uppercase tracking-widest border-b border-purplePalette-border pb-1">EXPERIENCE & PROJECTS</h3>
+                    <div>
+                        <p class="text-xs font-bold text-white">AI Virtual Intern — DecodeLabs (Aug 2026 – Sep 2026)</p>
+                        <p class="text-xs text-text-sub">Developed 4 AI projects: Chatbot Engine, KNN Iris Classifier, Tech Recommender, and OCR Detector.</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-white">Waste to Energy Research Presenter — Aga Khan University FAS SRC (2026)</p>
+                        <p class="text-xs text-text-sub">Presented original research titled "Waste to Energy using a physics based incineration Approach".</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-white">Field Survey Enumerator — Gallup Pakistan (Aug 2026 – Sep 2026)</p>
+                        <p class="text-xs text-text-sub">Gathered and verified field survey data.</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-white">Academic STEM Tutor (Ongoing)</p>
+                        <p class="text-xs text-text-sub">Instructing O Level & 8th-grade students in Mathematics, Physics, and English.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        lucide.createIcons();
+
+        // Canvas Motion Background Script with Touch Response
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 180 };
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = Math.floor((width * height) / (width < 640 ? 12000 : 18000));
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: Math.random() * 1.8 + 0.5
+                });
+            }
+        }
+
+        window.addEventListener('resize', initCanvas);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        });
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            if (mouse.x && mouse.y) {
+                const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 250);
+                gradient.addColorStop(0, 'rgba(176, 79, 130, 0.18)');
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(mouse.x, mouse.y, 250, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.fillStyle = 'rgba(253, 228, 216, 0.25)';
+            ctx.strokeStyle = 'rgba(176, 79, 130, 0.1)';
+
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (mouse.x && mouse.y) {
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `rgba(176, 79, 130, ${0.35 * (1 - dist / mouse.radius)})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        initCanvas();
+        animateCanvas();
+
+        function requestCV() {
+            document.getElementById('resume-modal').classList.remove('hidden');
+        }
+        function closeResumeModal() {
+            document.getElementById('resume-modal').classList.add('hidden');
+        }
+
+        function toggleChat() {
+            document.getElementById('chat-box').classList.toggle('hidden');
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim().toLowerCase();
+            if(!message) return;
+
+            appendMessage(input.value, 'user');
+            input.value = '';
+
+            setTimeout(() => {
+                let botReply = "I am trained on Nabiha's portfolio. You can ask about her projects, skills, education, or request her CV!";
+
+                if (message.includes('cv') || message.includes('resume') || message.includes('download')) {
+                    botReply = "Certainly! Opening Nabiha's official CV preview window now.";
+                    requestCV();
+                } else if (message.includes('skill') || message.includes('python') || message.includes('c++')) {
+                    botReply = "Nabiha possesses technical competencies categorized into Programming, Data Science, Computer Vision, Dev Tools, Physics/Math, and Research.";
+                } else if (message.includes('project') || message.includes('ocr') || message.includes('ai')) {
+                    botReply = "Her featured works include an Image-Text OCR Detector, an AI Tech Stack Recommender, an Iris KNN Classifier, and the Karachi Automobile Venture concept.";
+                } else if (message.includes('degree') || message.includes('ned') || message.includes('education')) {
+                    botReply = "Nabiha is pursuing a Bachelor of Science in Applied Physics at NED University of Engineering & Technology, backed by a strong Computer Science background.";
+                } else if (message.includes('research') || message.includes('aku')) {
+                    botReply = "She presented original interdisciplinary research titled 'Waste to Energy using a physics based incineration Approach' at the Aga Khan University FAS SRC conference 2026.";
+                } else if (message.includes('intern') || message.includes('decodelabs') || message.includes('job')) {
+                    botReply = "She recently completed an AI Virtual Internship with DecodeLabs building 4 core AI applications, and currently tutors O Level STEM students.";
+                }
+
+                appendMessage(botReply, 'bot');
+            }, 350);
+        }
+
+        function appendMessage(text, sender) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            if (sender === 'user') {
+                msgDiv.className = 'p-3 rounded-2xl bg-purplePalette-card border border-purplePalette-border text-white text-right font-sans text-xs ml-auto max-w-[80%] shadow-sm';
+            } else {
+                msgDiv.className = 'p-3 rounded-2xl bg-purplePalette-base border border-purplePalette-mid text-text-bright font-sans text-xs mr-auto max-w-[85%] leading-relaxed shadow-sm';
+            }
+            msgDiv.innerHTML = text;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>
