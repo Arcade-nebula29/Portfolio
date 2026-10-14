@@ -20,9 +20,9 @@ Welcome to the official repository for my personal portfolio website, showcasing
 
 ---
 
-## 🛠️ Built With
+## Built With
 
-* **Markup & Styling:** HTML5, CSS3, Tailwind CSS (via CDN)
+* **Markup & Styling:** HTML5, CSS3, CSS (via CDN)
 * **Interactivity & Canvas:** Vanilla JavaScript (ES6+), HTML5 Canvas API
 * **Icons:** Lucide Icons
 * **Deployment & Hosting:** Vercel, GitHub Pages
