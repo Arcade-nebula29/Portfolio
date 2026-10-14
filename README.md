@@ -1,4 +1,4 @@
-#  NKS — Personal Portfolio Website
+#  NKS Personal Portfolio Website
 
 Welcome to the official repository for my personal portfolio website, showcasing my work at the interdisciplinary intersection of **Applied Physics, Artificial Intelligence, and Computer Vision**.
 
