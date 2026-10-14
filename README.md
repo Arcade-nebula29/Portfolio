@@ -32,7 +32,7 @@ Welcome to the official repository for my personal portfolio website, showcasing
 ## Author
 
 **Nabiha Khalid Siddiqui (NKS)**
-* **Degree:** B.S. Applied Physics — NED University of Engineering & Technology, Karachi
+* **Degree:** B.S. Applied Physics  NED University of Engineering & Technology, Karachi
 * **GitHub:** [@Arcade-nebula29](https://github.com/Arcade-nebula29)
 * **LinkedIn:** [Nabiha Khalid](https://www.linkedin.com/in/nabiha-khalid-145942379)
 * **Email:** [nabihakhalid29@gmail.com](mailto:nabihakhalid29@gmail.com)
