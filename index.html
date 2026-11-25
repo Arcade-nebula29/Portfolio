@@ -11,6 +11,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- html2pdf Library for Direct PDF Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <!-- Custom Tailwind Config -->
     <script>
         tailwind.config = {
@@ -121,17 +124,19 @@
             z-index: 0;
         }
 
-        @media print {
-            body * { visibility: hidden; }
-            #printable-resume, #printable-resume * { visibility: visible; }
-            #printable-resume {
-                position: absolute;
-                left: 0; top: 0; width: 100%;
-                background: white !important;
-                color: black !important;
-                padding: 30px;
-            }
-            .no-print { display: none !important; }
+        /* Clean Light Mode Styling Applied Temporarily During PDF Export */
+        .pdf-export-mode {
+            background: #ffffff !important;
+            color: #111111 !important;
+            padding: 24px !important;
+            border-radius: 0 !important;
+        }
+        .pdf-export-mode * {
+            color: #111111 !important;
+            border-color: #d1d5db !important;
+        }
+        .pdf-export-mode h1, .pdf-export-mode h3 {
+            color: #5B2E58 !important;
         }
 
         ::-webkit-scrollbar { width: 8px; }
@@ -219,8 +224,8 @@
                             Explore Selected Work <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
                         </a>
                         <button onclick="requestCV()" class="px-6 py-4 rounded-xl bg-purplePalette-card border border-purplePalette-vibrant/50 hover:border-purplePalette-vibrant text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg">
-    Preview CV
-</button>
+                            Preview CV
+                        </button>
                     </div>
                 </div>
 
@@ -629,14 +634,14 @@
     <!-- READ-ONLY PREVIEW CV MODAL -->
     <div id="resume-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
         <div class="clay-card w-full max-w-3xl max-h-[90vh] overflow-y-auto p-5 sm:p-6 space-y-6 relative border-purplePalette-vibrant">
-            <div class="flex items-center justify-between border-b border-purplePalette-border pb-4 no-print">
+            <div class="flex items-center justify-between border-b border-purplePalette-border pb-4">
                 <div class="flex items-center gap-2">
                     <i data-lucide="file-check" class="w-4 h-4 text-purplePalette-vibrant"></i>
                     <span class="text-xs text-white">Official Curriculum Vitae</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="window.print()" class="clay-btn px-4 py-2 text-xs text-white font-bold flex items-center gap-1.5">
-                        <i data-lucide="printer" class="w-3.5 h-3.5"></i> Download PDF
+                    <button id="download-pdf-btn" onclick="downloadCV()" class="clay-btn px-4 py-2 text-xs text-white font-bold flex items-center gap-1.5">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Download PDF
                     </button>
                     <button onclick="closeResumeModal()" class="text-text-sub hover:text-white p-1">
                         <i data-lucide="x" class="w-5 h-5"></i>
@@ -779,6 +784,39 @@
         }
         function closeResumeModal() {
             document.getElementById('resume-modal').classList.add('hidden');
+        }
+
+        // Direct PDF Download Function (Saves directly to Downloads folder)
+        function downloadCV() {
+            const element = document.getElementById('printable-resume');
+            const btn = document.getElementById('download-pdf-btn');
+            const originalHTML = btn.innerHTML;
+
+            btn.innerHTML = 'Generating PDF...';
+            btn.disabled = true;
+
+            // Switch to clean white/dark-text styling for export
+            element.classList.add('pdf-export-mode');
+
+            const opt = {
+                margin:       0.4,
+                filename:     'Nabiha_Khalid_Siddiqui_CV.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, backgroundColor: '#ffffff', useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                element.classList.remove('pdf-export-mode');
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                lucide.createIcons();
+            }).catch(() => {
+                element.classList.remove('pdf-export-mode');
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                lucide.createIcons();
+            });
         }
 
         function toggleChat() {
